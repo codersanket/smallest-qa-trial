@@ -87,15 +87,14 @@ The docs contradict each other on concurrency, voice/model pairing, the default 
 
 ## What is done well
 
-- **Rejected requests appear not to be billed.** Fresh account $10.00 → $9.80 after 18,406 submitted characters, of which ~8,100 were deliberately rejected (one 8001-char `too_big`, mismatches, whitespace, filter); the ~10,300 successful × $0.195/10k = $0.20. Had the 8001-char reject been billed, the balance would read ~$9.64. Two-decimal precision cannot resolve the two aborted streams.
-- **Timers exact, keep-alive as documented:** `?timeout=5/60/180` closed within 3 ms; `{"type":"ping"}` every 3 s held a 5 s socket for 150 s (49 pongs); protocol pings did not reset the timer, as `keep-alive.md` says.
-- **`complete_backoff_ms` does what it says:** 4018–4026 ms tail by default, 26–31 ms at 0 (n=14).
-- **Correlation:** `x-request-id` on 40/40 HTTP responses including all 9 validation 400s and the 401; client IDs echoed on sync, SSE and WebSocket.
-- **Input validation:** 8001 chars, whitespace-only and 22050 Hz → 400; 251 and 1000 chars → 200, so the card's "max chunk size 250" is not an API limit and should say what it is.
-- **Region gating is explicit:** `api.us` + `multi-indic` → 400 `LANGUAGE_NOT_ENABLED_IN_REGION`, `region: us-west-2` (`ebeed2b1-7f31-4a87-8ddd-9ac319a08a06`).
-- **Latency from Mumbai:** first audio p50/p95 162/177 ms (generic), 160/202 ms (`api.india`), n=20 each.
-
-Five of my pre-written expectations were wrong and the docs were right (length and sample-rate limits, backoff, keep-alive, region gating).
+- Rejected requests appear not to be billed: fresh account $10.00 → $9.80 after 18,406 submitted chars, ~8,100 deliberately rejected; ~10,300 successful × $0.195/10k = $0.20. A billed 8001-char reject would have left ~$9.64. Dashboard precision can't resolve the two aborted streams.
+- Timers exact: ?timeout=5/60/180 closed within 3 ms; JSON ping every 3 s held a 5 s socket 150 s; protocol pings did not reset it, as documented.
+- complete_backoff_ms works: 4018–4026 ms tail by default, 26–31 ms at 0 (n=14).
+- x-request-id on 40/40 HTTP responses incl. all 400s and the 401; client IDs echoed on all three transports.
+- 8001 chars, whitespace-only, 22050 Hz → clear 400s; 251 and 1000 chars accepted.
+- Region gating explicit: api.us + multi-indic → 400 LANGUAGE_NOT_ENABLED_IN_REGION, region us-west-2.
+- First audio from Mumbai p50/p95 162/177 ms (generic), 160/202 ms (api.india).
+Five of my expectations were wrong; the docs were right.
 
 ## Top 3 fixes
 
