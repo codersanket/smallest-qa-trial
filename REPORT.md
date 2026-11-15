@@ -105,9 +105,9 @@ Five of my pre-written expectations were wrong and the docs were right (length a
 
 ## Time spent
 
-**[HOURS] hours**: docs and planning, harness work, scripted probes, hand re-runs, writing.
+**6 hours**: docs and planning, harness work, scripted probes, hand re-runs, writing.
 
-Links: `[REPO]/runs` (raw logs, redacted) · `[REPO]/harness` (scripts) · `[REPO]/FINDINGS.md` (full evidence, calibrations, unresolved items).
+Links: https://github.com/codersanket/smallest-qa-trial/tree/main/runs (raw logs, redacted) · https://github.com/codersanket/smallest-qa-trial/tree/main/harness (scripts) · https://github.com/codersanket/smallest-qa-trial/blob/main/FINDINGS.md (full evidence, calibrations, unresolved items).
 
 ## Private: security concern
 
